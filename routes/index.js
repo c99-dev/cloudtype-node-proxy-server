@@ -18,7 +18,14 @@ router.use(
       "^/proxy": "",
     },
     onProxyRes: (proxyRes) => {
-      proxyRes.headers["Content-Type"] = "text/plain";
+      // Change MIME type to application/json
+      proxyRes.headers["Content-Type"] = "application/json";
+      // Add CORS headers
+      proxyRes.headers["Access-Control-Allow-Origin"] = "*";
+    },
+    // Transform the response data into JSON format
+    userResDecorator: (proxyRes, proxyResData, userReq, userRes) => {
+      return JSON.stringify(proxyResData.toString("utf8"));
     },
   })
 );
