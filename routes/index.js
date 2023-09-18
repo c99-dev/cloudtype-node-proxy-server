@@ -1,15 +1,10 @@
-const express = require("express");
 const router = express.Router();
+const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
-// 기존의 app 인스턴스 생성 코드는 제거
+const app = express();
 
-router.get("/", function (req, res, next) {
-  res.render("index.njk"); // .html 대신 .njk 확장자 사용
-});
-
-// 변경된 부분: createProxyMiddleware 함수를 사용
-router.use(
+app.use(
   "/proxy",
   createProxyMiddleware({
     target: "https://www.op.gg",
@@ -18,14 +13,15 @@ router.use(
       "^/proxy": "",
     },
     onProxyRes: (proxyRes) => {
-      // Change MIME type to application/json
-      proxyRes.headers["Content-Type"] = "application/json";
+      // Change MIME type to plain text
+      proxyRes.headers["Content-Type"] = "text/plain";
       // Add CORS headers
       proxyRes.headers["Access-Control-Allow-Origin"] = "*";
     },
-    // Transform the response data into JSON format
+    // Transform the response data into Base64 format
     userResDecorator: (proxyRes, proxyResData, userReq, userRes) => {
-      return JSON.stringify(proxyResData.toString("utf8"));
+      const base64Data = Buffer.from(proxyResData).toString("base64");
+      return base64Data;
     },
   })
 );
