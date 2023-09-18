@@ -1,10 +1,8 @@
-const router = express.Router();
 const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
+const router = express.Router();
 
-const app = express();
-
-app.use(
+router.use(
   "/proxy",
   createProxyMiddleware({
     target: "https://www.op.gg",
@@ -15,8 +13,6 @@ app.use(
     onProxyRes: (proxyRes) => {
       // Change MIME type to plain text
       proxyRes.headers["Content-Type"] = "text/plain";
-      // Add CORS headers
-      proxyRes.headers["Access-Control-Allow-Origin"] = "*";
     },
     // Transform the response data into Base64 format
     userResDecorator: (proxyRes, proxyResData, userReq, userRes) => {
