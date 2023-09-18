@@ -17,6 +17,9 @@ router.use(
     pathRewrite: {
       "^/proxy": "",
     },
+    onProxyRes: (proxyRes) => {
+      proxyRes.headers["Content-Type"] = "text/plain";
+    },
   })
 );
 
