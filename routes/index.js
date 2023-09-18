@@ -14,11 +14,6 @@ router.use(
       // Change MIME type to plain text
       proxyRes.headers["Content-Type"] = "text/plain";
     },
-    // Transform the response data into Base64 format
-    userResDecorator: (proxyRes, proxyResData, userReq, userRes) => {
-      const base64Data = Buffer.from(proxyResData).toString("base64");
-      return base64Data;
-    },
   })
 );
 
