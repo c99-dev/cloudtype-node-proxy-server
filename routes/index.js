@@ -2,10 +2,14 @@ const express = require("express");
 const router = express.Router();
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
-const app = express();
+// 기존의 app 인스턴스 생성 코드는 제거
+
+router.get("/", function (req, res, next) {
+  res.render("index.njk"); // .html 대신 .njk 확장자 사용
+});
 
 // 변경된 부분: createProxyMiddleware 함수를 사용
-app.use(
+router.use(
   "/proxy",
   createProxyMiddleware({
     target: "https://www.op.gg",
@@ -15,10 +19,5 @@ app.use(
     },
   })
 );
-
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
 
 module.exports = router;
