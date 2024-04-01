@@ -3,8 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const nunjucks = require("nunjucks");
-const cors = require("cors"); // Import the cors library
+const cors = require("cors");
 
 var indexRouter = require("./routes/index");
 
@@ -12,14 +11,6 @@ var app = express();
 
 // Enable CORS for all routes
 app.use(cors());
-
-// view engine setup
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "njk");
-// nunjucks.configure("views", {
-//   express: app,
-//   watch: true,
-// });
 
 app.use(logger("dev"));
 app.use(express.json());
